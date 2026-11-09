@@ -1,0 +1,154 @@
+:root {
+    color-scheme: dark;
+    --background: #171717;
+    --text: #dfdfdf;
+    --muted: #a1a1a1;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--muted);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, p, ul { margin: 0; }
+h1, h2, strong { color: var(--text); }
+strong { font-weight: 500; }
+a { color: var(--text); text-decoration: none; transition: color .26s ease; }
+a:hover { color: #fff; }
+:focus-visible { outline: 2px solid #aaa; outline-offset: 4px; }
+
+.home {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    align-items: start;
+    align-content: center;
+    gap: 64px;
+    width: min(850px, calc(100% - 64px));
+    min-height: 100svh;
+    margin-inline: auto;
+    padding-block: 72px 120px;
+}
+
+.portrait {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center 35%;
+    border-radius: 24px;
+}
+
+.profile { font-size: 22px; line-height: 1.55; }
+.profile h1 { font-size: 36px; line-height: 1.25; letter-spacing: -.02em; }
+.profile p, .socials { margin-top: 24px; }
+.socials { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+
+.work {
+    width: min(672px, calc(100% - 64px));
+    margin-inline: auto;
+    padding-block: 112px 112px;
+    font-size: 18px;
+    line-height: 1.65;
+}
+
+.work h1 { margin-bottom: 24px; font-size: 32px; line-height: 1.25; }
+.work h2 { margin-bottom: 12px; font-size: 24px; }
+.work ul { display: grid; gap: 20px; padding: 0; list-style: none; }
+.work .name, .work .desc { display: block; }
+.work .desc { color: var(--muted); }
+.work .skills { margin-top: 48px; }
+.work footer { margin-top: 32px; font-size: 15px; }
+
+.menu-button, .site-menu {
+    position: fixed;
+    inset: auto auto max(32px, env(safe-area-inset-bottom)) max(36px, env(safe-area-inset-left));
+    margin: 0;
+    border: 1px solid #ffffff12;
+    background: #202020ed;
+    color: var(--text);
+    box-shadow: 0 6px 24px #0006;
+    backdrop-filter: blur(16px);
+}
+
+.menu-button, .site-menu button {
+    font: inherit;
+    cursor: pointer;
+}
+
+.menu-button {
+    min-height: 48px;
+    padding: 0 19px;
+    border-radius: 999px;
+    transition: background-color .26s ease, opacity .26s ease;
+}
+
+.menu-button:hover { background-color: #2b2b2b; }
+body:has(.site-menu:popover-open) .menu-button { opacity: 0; pointer-events: none; }
+
+.site-menu {
+    width: 136px;
+    padding: 8px;
+    border-radius: 24px;
+    opacity: 0;
+    transform: translateY(7px) scale(.96);
+    transform-origin: left bottom;
+    transition: opacity .28s var(--ease), transform .34s var(--ease),
+        display .34s allow-discrete, overlay .34s allow-discrete;
+}
+
+.site-menu:popover-open { opacity: 1; transform: none; }
+
+@starting-style {
+    .site-menu:popover-open { opacity: 0; transform: translateY(7px) scale(.96); }
+}
+
+.site-menu a, .site-menu button {
+    display: block;
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--muted);
+    text-align: left;
+    line-height: 1.3;
+    transition: color .26s ease, background-color .26s ease;
+}
+
+.site-menu button { margin-top: 4px; border: 0; }
+.site-menu [aria-current="page"] { color: var(--text); }
+.site-menu a:hover, .site-menu button:hover { color: var(--text); background-color: #ffffff0c; }
+
+@media (prefers-reduced-motion: no-preference) {
+    .home, .work { animation: appear .38s ease both; }
+    @keyframes appear { from { opacity: 0; } to { opacity: 1; } }
+}
+
+@media (max-width: 760px) {
+    .home {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 32px;
+        width: min(480px, calc(100% - 48px));
+        padding-block: 48px 112px;
+    }
+
+    .portrait { width: min(100%, 260px); }
+    .profile { font-size: 20px; }
+    .profile h1 { font-size: 32px; }
+    .profile p, .socials { margin-top: 18px; }
+    .work { width: calc(100% - 48px); padding-top: 56px; }
+    .menu-button, .site-menu {
+        bottom: max(20px, env(safe-area-inset-bottom));
+        left: max(20px, env(safe-area-inset-left));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; }
+}
